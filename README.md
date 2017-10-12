@@ -14,9 +14,11 @@ Quick _To Do_ project I'm making for work. See, I just need a simple "TO DO" lis
 * When you're done a task, click on it to mark it as complete.
 * `?` pulls up info on import/export
 
+## See it in action!
+
+[To Do List](https://jasonvertucio.com/todo)!
+
 ## To do
 
 This is the section to leave ideas for this SPA.
 
-||IDEA||LEFT||
-||Oh|No tables?||
