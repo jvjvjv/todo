@@ -22,7 +22,6 @@ app.controller('mainView',function($scope,$sce){
 	};
 
 	$scope.$on('keydown:27',function(key,evt){
-		console.log("esc");
 		vm.json = '';
 		vm.help = false;
 		vm.import = false;
@@ -47,12 +46,16 @@ app.controller('mainView',function($scope,$sce){
 		if (evt.srcElement.tagName !== 'INPUT') {
 			vm.help = true;
 			$scope.$apply();
+			gtag('event','Help');
 		}
 	});
 
 	vm.spitOutJson = function(){
 		vm.json = angular.toJson(vm.todo);
 		$scope.$apply();
+		gtag('event','Exported Tasks', {
+			'event_label': vm.json,
+		});
 	};
 
 	vm.toggle = function(item){
@@ -67,7 +70,14 @@ app.controller('mainView',function($scope,$sce){
 			vm.todo = obj;
 			vm.import = false;
 			vm.importText = '';
+			gtag('event','Imported Tasks', {
+				'event_label': text,
+			});
 		} catch(e){
+			gtag('event','exception',{
+				'description':e,
+				'fatal':false
+			});
 			alert("Invalid JSON");
 			return;
 		}
@@ -88,6 +98,7 @@ app.controller('mainView',function($scope,$sce){
 			return !item.done;
 		} );
 		saveToDo();
+		gtag('event','Cleared Completed Tasks');
 	};
 
 	vm.addNewTask = function($event){
@@ -95,6 +106,9 @@ app.controller('mainView',function($scope,$sce){
 			done:false,
 			task:$scope.task,
 			added:new Date
+		});
+		gtag('event','Add Task', {
+			'event_label': $scope.task,
 		});
 		localStorage.toDo = angular.toJson(vm.todo);
 		$scope.task = '';
@@ -108,7 +122,7 @@ app.controller('mainView',function($scope,$sce){
       restrict: 'A',
       link: function() {
         $document.bind('keydown', function(e) {
-          console.log('Got keydown:', e.which);
+          // console.log('Got keydown:', e.which);
           $rootScope.$broadcast('keydown', e);
           $rootScope.$broadcast('keydown:' + e.which, e);
         });
