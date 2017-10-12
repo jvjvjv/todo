@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>TO DO</title>
+		
+		<script src="lib/angular/angular.min.js"></script>
+		<script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+		<script src="lib/angular-ui/build/angular-ui.min.js"></script>
+		<script src="lib/angular-ui/build/angular-ui.min.js"></script>
+		<script src="app/app.js"></script>
+
+
+		<link rel="stylesheet" href="lib/foundation-sites/dist/css/foundation.min.css"  />
+		<link rel="stylesheet" href="lib/angular-ui/build/angular-ui.min.css"  />
+		<link href="app/app.css" rel="stylesheet">
+
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
+	</head>
+
+	<body ng-app="ToDo">
+		<div ng-controller="mainView as vm" ng-init="init()">
+			<div class="header">
+				<h1>{{vm.Title}}</h1>
+				<div class="description" ng-bind-html="vm.description"></div>
+				<div class="clear-items">
+					<button class="button alert" type="button" ng-click="vm.clearCompleted()">Clear Completed</button>
+				</div>
+			</div>
+			<div class="task-list">
+				<ul><li ng-repeat="item in vm.todo" class="grid-x grid-padding-x">
+					<div ng-click="vm.toggle(item)" class="to-do-item small-12 cell" ng-class="{done: item.done}" title="added {{item.added|date:'short'}}">
+						{{ item.task }}
+					</div>
+				</li></ul>
+			</div>
+
+			<div class="add-new grid-x">
+				<form  name="newTask" ng-submit="vm.addNewTask()" class="small-12 cell">
+					<div class="input-group">
+						<input autofocus class="input-group-field" type="text" ng-model="task" required>
+						<div class="input-group-button">
+							<button class="button" type="submit">Add</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div class="modal-show" ng-show="vm.json">
+				<div class="json" ng-bind="vm.json">
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+</html>
