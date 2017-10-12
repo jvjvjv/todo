@@ -34,9 +34,9 @@
 			</div>
 
 			<div class="add-new grid-x">
-				<form  name="newTask" ng-submit="vm.addNewTask()" class="small-12 cell">
+				<form novalidate name="newTask" ng-submit="vm.addNewTask()" class="small-12 cell">
 					<div class="input-group">
-						<input autofocus class="input-group-field" type="text" ng-model="task" required>
+						<input autofocus class="input-group-field" type="text" ng-model="task" required placeholder="Add a task . . .">
 						<div class="input-group-button">
 							<button class="button" type="submit">Add</button>
 						</div>
