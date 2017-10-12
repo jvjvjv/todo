@@ -3,10 +3,14 @@
   "authors": [
     "Jason Vertucio <me@jasonvertucio.com>"
   ],
-  "description": "",
+  "description": "A little To Do project I made.",
   "main": "",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://jasonvertucio.com/todo",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jvjvjv/todo.git"
+  },
   "private": true,
   "ignore": [
     "**/.*",
