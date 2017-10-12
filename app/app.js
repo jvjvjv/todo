@@ -14,7 +14,7 @@ app.controller('mainView',function($scope,$sce){
 
 	$scope.init = function(){
 		vm.Title = "To Do";
-		vm.description = $sce.trustAsHtml("<p>Quick To Do List.</p>");
+		vm.description = $sce.trustAsHtml("<p>Here's my to do list. It only exists on this computer in this browser.</p><p>If you want, you can have different To Do lists in different browsers. But, I mean, who even does that?</p>");
 		vm.todo = [];
 		if (localStorage.toDo) {
 			vm.todo = loadToDo();
@@ -60,7 +60,10 @@ app.controller('mainView',function($scope,$sce){
 
 	vm.toggle = function(item){
 		item.done = !item.done;
-		saveToDo()
+		gtag('event', (item.done ? 'Completed' : 'Un-completed') + ' a task',{
+			'event_label':item.task
+		});
+		saveToDo();
 	};
 
 	vm.performImport = function(text){
@@ -102,6 +105,13 @@ app.controller('mainView',function($scope,$sce){
 	};
 
 	vm.addNewTask = function($event){
+		if ($scope.task == '') {
+			gtag('event','exception',{
+				'description':'Attempted to add blank task',
+				'fatal':false
+			});
+			return;
+		}
 		vm.todo.push({
 			done:false,
 			task:$scope.task,

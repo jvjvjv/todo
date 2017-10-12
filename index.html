@@ -22,7 +22,7 @@
 
 	<body ng-app="ToDo" keypress-events>
 		<div ng-controller="mainView as vm" ng-init="init()" ui-keypress="{enter:'vm.spitOutJson($event)'}">
-			<div class="header">
+			<div class="header grid-container">
 				<h1>{{vm.Title}}</h1>
 				<div class="description" ng-bind-html="vm.description"></div>
 				<div class="clear-items">
