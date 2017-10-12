@@ -1,7 +1,5 @@
 "use strict";
-var app = angular.module('ToDo',['ngSanitize','ui']);
-
-
+var app = angular.module('ToDo',['ngSanitize','angular-clipboard','mm.foundation']);
 
 app.controller('mainView',function($scope,$sce){
 
@@ -23,9 +21,60 @@ app.controller('mainView',function($scope,$sce){
 		}
 	};
 
+	$scope.$on('keydown:27',function(key,evt){
+		console.log("esc");
+		vm.json = '';
+		vm.help = false;
+		vm.import = false;
+		vm.help = false;
+		$scope.$apply();
+	});
+
+	$scope.$on('keydown:69',function(key,evt){
+		if (evt.srcElement.tagName !== 'INPUT') {
+			vm.spitOutJson();
+		}
+	});
+
+	$scope.$on('keydown:73',function(key,evt){
+		if (evt.srcElement.tagName !== 'INPUT') {
+			vm.import = true;
+			$scope.$apply();
+		}
+	});
+
+	$scope.$on('keydown:191',function(key,evt){
+		if (evt.srcElement.tagName !== 'INPUT') {
+			vm.help = true;
+			$scope.$apply();
+		}
+	});
+
+	vm.spitOutJson = function(){
+		vm.json = angular.toJson(vm.todo);
+		$scope.$apply();
+	};
+
 	vm.toggle = function(item){
 		item.done = !item.done;
 		saveToDo()
+	};
+
+	vm.performImport = function(text){
+		try {
+			var obj = angular.fromJson(text);
+			localStorage.todo = text;
+			vm.todo = obj;
+			vm.import = false;
+			vm.importText = '';
+		} catch(e){
+			alert("Invalid JSON");
+			return;
+		}
+
+	};
+	vm.jsonCopied = function(){
+		alert("JSON successfully copied. This is such a jinkley way to handle export/import.");
 	};
 
 	vm.delete = function(item){
@@ -50,4 +99,20 @@ app.controller('mainView',function($scope,$sce){
 		localStorage.toDo = angular.toJson(vm.todo);
 		$scope.task = '';
 	};
-});
+})
+.directive('keypressEvents', [
+  '$document',
+  '$rootScope',
+  function($document, $rootScope) {
+    return {
+      restrict: 'A',
+      link: function() {
+        $document.bind('keydown', function(e) {
+          console.log('Got keydown:', e.which);
+          $rootScope.$broadcast('keydown', e);
+          $rootScope.$broadcast('keydown:' + e.which, e);
+        });
+      }
+    };
+  }
+]);

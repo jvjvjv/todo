@@ -5,20 +5,19 @@
 		
 		<script src="lib/angular/angular.min.js"></script>
 		<script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
-		<script src="lib/angular-ui/build/angular-ui.min.js"></script>
-		<script src="lib/angular-ui/build/angular-ui.min.js"></script>
+		<script src="lib/angular-clipboard/angular-clipboard.js"></script>
+		<script src="lib/angular-foundation/mm-foundation.min.js"></script>
 		<script src="app/app.js"></script>
 
 
 		<link rel="stylesheet" href="lib/foundation-sites/dist/css/foundation.min.css"  />
-		<link rel="stylesheet" href="lib/angular-ui/build/angular-ui.min.css"  />
 		<link href="app/app.css" rel="stylesheet">
 
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
 	</head>
 
-	<body ng-app="ToDo">
-		<div ng-controller="mainView as vm" ng-init="init()">
+	<body ng-app="ToDo" keypress-events>
+		<div ng-controller="mainView as vm" ng-init="init()" ui-keypress="{enter:'vm.spitOutJson($event)'}">
 			<div class="header">
 				<h1>{{vm.Title}}</h1>
 				<div class="description" ng-bind-html="vm.description"></div>
@@ -45,8 +44,42 @@
 				</form>
 			</div>
 
-			<div class="modal-show" ng-show="vm.json">
-				<div class="json" ng-bind="vm.json">
+			<div class="modal-show" ng-show="vm.json" ng-click="vm.json = ''">
+				<div class="json" id="json" ng-bind="vm.json" clipboard supported="supproted" text="vm.json" on-copied="vm.jsonCopied()" on-error="fail()">
+				</div>
+			</div>
+
+			<div class="modal-show" ng-show="vm.import">
+				<div class="import">
+					<form ng-submit="vm.performImport(vm.importText)">
+						<textarea ng-model="vm.importText"></textarea>
+						<button class="button" type="submit">Import</button>
+						<button class="button secondary" type="button" ng-click="vm.import = false;vm.importText = '';">Cancel</button>
+					</form>
+				</div>
+			</div>
+			<div class="modal-show" ng-show="vm.help" ng-click="vm.help = false">
+				<div class="help">
+					<h3>Keyboard shortcuts</h3>
+					<table>
+						<thead>
+							<tr>
+								<th>Key</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>E</td><th>Open Export Window</th>
+							</tr>
+							<tr>
+								<td>I</td><th>Open Import Window</th>
+							</tr>
+							<tr>
+								<td>?</td><th>This window</th>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
 
