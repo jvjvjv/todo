@@ -30,24 +30,30 @@ app.controller('mainView',function($scope,$sce){
 	});
 
 	$scope.$on('keydown:69',function(key,evt){
-		if (evt.srcElement.tagName !== 'INPUT') {
+		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
 			vm.spitOutJson();
 		}
 	});
 
 	$scope.$on('keydown:73',function(key,evt){
-		if (evt.srcElement.tagName !== 'INPUT') {
+		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
 			vm.import = true;
 			$scope.$apply();
 		}
 	});
 
 	$scope.$on('keydown:191',function(key,evt){
-		if (evt.srcElement.tagName !== 'INPUT') {
+		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
 			vm.help = true;
 			$scope.$apply();
 			gtag('event','Help');
 		}
+	});
+
+	$scope.$watchGroup(['vm.import','vm.help','vm.json'],function(v,i){
+		var result = !vm.import && !vm.help && !vm.json;
+		console.log(!result);
+		vm.modalOpen = !result;
 	});
 
 	vm.spitOutJson = function(){
