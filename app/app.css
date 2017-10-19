@@ -1,5 +1,9 @@
 body {min-height:100%;}
 
+h1, h2, h3, h4, h5 {
+	color:#303769;
+}
+
 .clear-items {
 	position:fixed;top:0;right:0;
 	z-index:10;
@@ -19,6 +23,10 @@ li {
 	cursor:pointer;
 	font-size:2rem;
 }
+	.to-do-item.instructional {
+		color:#49497a;
+		text-align:right;
+	}
 	.task-list .done {
 		opacity:0.25;
 		background-color:#eaeaea;

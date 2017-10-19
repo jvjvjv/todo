@@ -26,6 +26,13 @@
 				</div>
 			</div>
 			<div class="task-list">
+				<ul ng-show="vm.todo.length == 0">
+					<li class="grid-x grid-padding-x">
+						<div class="to-do-item instructional small-12 cell">
+							Be cool and start adding tasks! 
+						</div>
+					</li>
+				</ul>
 				<ul><li ng-repeat="item in vm.todo" class="grid-x grid-padding-x">
 					<div ng-click="vm.toggle(item)" class="to-do-item small-12 cell" ng-class="{done: item.done}" title="added {{item.added|date:'short'}}">
 						{{ item.task }}
@@ -38,7 +45,7 @@
 					<div class="input-group">
 						<input autofocus class="input-group-field" type="text" ng-model="task" required placeholder="Add a task . . .">
 						<div class="input-group-button">
-							<button class="button" type="submit">Add</button>
+							<button class="button" type="submit">Add Task</button>
 						</div>
 					</div>
 				</form>
