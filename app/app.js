@@ -1,6 +1,37 @@
 "use strict";
 var app = angular.module('ToDo',['ngSanitize','angular-clipboard','mm.foundation']);
 
+angular.element(document).ready(function($http){
+
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (this.readyState == 4 && this.status == 200) {
+			var config = JSON.parse(this.response);
+
+			window.dataLayer = window.dataLayer || [];
+			window.gtag = function(){
+				dataLayer.push(arguments);
+			};
+			gtag('js', new Date());
+			gtag('config', config.ua);
+
+			var script = document.createElement('script');
+			script.setAttribute('async','');
+			script.setAttribute('src','https://www.googletagmanager.com/gtag/js?id=' + config.ua);
+			document.body.appendChild(script);
+		}
+		
+		if (this.readyState == 4) {
+			angular.bootstrap(document.body,["ToDo"]);
+		}
+	};
+
+	xhr.open("GET","config.json", true);
+	xhr.send();
+
+
+});
+
 app.controller('mainView',function($scope,$sce){
 
 	var vm = this;

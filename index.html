@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-xxxxxxxx-xx"></script>
-		<script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-xxxxxxxx-xx');</script>
-
 		<title>TO DO</title>
 		
 		<script src="lib/angular/angular.min.js"></script>
@@ -20,7 +16,7 @@
 		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0" />
 	</head>
 
-	<body ng-app="ToDo" keypress-events>
+	<body keypress-events>
 		<div ng-controller="mainView as vm" ng-init="init()" ui-keypress="{enter:'vm.spitOutJson($event)'}">
 			<div class="header grid-container">
 				<h1>{{vm.Title}}</h1>
