@@ -175,4 +175,13 @@ app.controller('mainView',function($scope,$sce){
       }
     };
   }
-]);
+])
+.filter('undone', function(){
+	return function(input) {
+		var length = 0;
+		angular.forEach(input,function(i){
+			length += (i.done == false);
+		});
+		return length;
+	}
+});

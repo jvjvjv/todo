@@ -19,7 +19,7 @@
 	<body keypress-events>
 		<div ng-controller="mainView as vm" ng-init="init()" ui-keypress="{enter:'vm.spitOutJson($event)'}">
 			<div class="header grid-container">
-				<h1>{{vm.Title}}</h1>
+				<h1>{{vm.Title}}<span class="badge alert" ng-show="vm.todo|undone">{{vm.todo|undone}}</span></h1>
 				<div class="description" ng-bind-html="vm.description"></div>
 				<div class="clear-items">
 					<button class="button alert" type="button" ng-click="vm.clearCompleted()">Clear Completed</button>
