@@ -83,7 +83,6 @@ app.controller('mainView',function($scope,$sce){
 
 	$scope.$watchGroup(['vm.import','vm.help','vm.json'],function(v,i){
 		var result = !vm.import && !vm.help && !vm.json;
-		console.log(!result);
 		vm.modalOpen = !result;
 	});
 
