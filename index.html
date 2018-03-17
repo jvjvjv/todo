@@ -55,8 +55,8 @@
 
 			<div class="modal-show" ng-show="vm.json" ng-click="vm.json = ''">
 				<div class="json" clipboard supported="supproted" text="vm.json" on-copied="vm.jsonCopied()" on-error="fail()">
-					<h4>Click on the JSON object to copy it to your clipboard</h4>
-					<p>You can paste the JSON into a file, and then import it into another instance.</p>
+					<h4>Click on this to copy it to your clipboard</h4>
+					<p>You can paste the JSON into a new text file to transfer this To Do list to another browser.</p>
 					<pre id="json" ng-bind="vm.json"style="word-wrap:break-word;white-space:pre-wrap;"></pre>
 				</div>
 			</div>
