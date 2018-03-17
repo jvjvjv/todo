@@ -1,7 +1,7 @@
 "use strict";
 var app = angular.module('ToDo',['ngSanitize','angular-clipboard','mm.foundation']);
 
-angular.element(document).ready(function($http){
+angular.element(document).ready(function(){
 
 	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function(){
@@ -32,7 +32,7 @@ angular.element(document).ready(function($http){
 
 });
 
-app.controller('mainView',function($scope,$sce){
+app.controller('mainView',function($scope,$http,$sce){
 
 	var vm = this;
 
@@ -50,45 +50,68 @@ app.controller('mainView',function($scope,$sce){
 		if (localStorage.toDo) {
 			vm.todo = loadToDo();
 		}
+
+		$http.get('versions.json')
+		.then(function(response){
+			vm.versions = response.data;
+		});
 	};
 
-	$scope.$on('keydown:27',function(key,evt){
+	$scope.close = function() {
 		vm.json = '';
 		vm.help = false;
 		vm.import = false;
-		vm.help = false;
-		$scope.$apply();
-	});
-
-	$scope.$on('keydown:69',function(key,evt){
-		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
-			vm.spitOutJson();
+		vm.whatsNew = false;
+	}
+	$scope.open = function(modal) {
+		$scope.close();
+		switch (modal) {
+			case 'import':
+			case 'help':
+			case 'whatsNew':
+				vm[modal] = true;
+				break;
 		}
-	});
+	}
 
-	$scope.$on('keydown:73',function(key,evt){
+	$scope.$on('keydown:27',function(key,evt){ // ESC
 		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
-			vm.import = true;
+			$scope.close();
 			$scope.$apply();
 		}
 	});
 
-	$scope.$on('keydown:191',function(key,evt){
+	$scope.$on('keydown:69',function(key,evt){ // E
 		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
-			vm.help = true;
+			vm.spitOutJson();
+			$scope.$apply();
+			gtag('event','Export');
+		}
+	});
+
+	$scope.$on('keydown:73',function(key,evt){ // I
+		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
+			$scope.open('import');
+			$scope.$apply();
+			gtag('event','Import');
+		}
+	});
+
+	$scope.$on('keydown:191',function(key,evt){ // ?
+		if (evt.srcElement.tagName !== 'INPUT' && !vm.modalOpen) {
+			$scope.open('help');
 			$scope.$apply();
 			gtag('event','Help');
 		}
 	});
 
-	$scope.$watchGroup(['vm.import','vm.help','vm.json'],function(v,i){
-		var result = !vm.import && !vm.help && !vm.json;
+	$scope.$watchGroup(['vm.import','vm.help','vm.json','vm.whatsNew'],function(v,i){
+		var result = !vm.import && !vm.help && !vm.json && !vm.whatsNew;
 		vm.modalOpen = !result;
 	});
 
 	vm.spitOutJson = function(){
 		vm.json = angular.toJson(vm.todo);
-		$scope.$apply();
 		gtag('event','Exported Tasks', {
 			'event_label': vm.json,
 		});
@@ -123,7 +146,7 @@ app.controller('mainView',function($scope,$sce){
 
 	};
 	vm.jsonCopied = function(){
-		alert("JSON successfully copied. This is such a jinkley way to handle export/import.");
+		// We good
 	};
 
 	vm.delete = function(item){
@@ -168,7 +191,6 @@ app.controller('mainView',function($scope,$sce){
       restrict: 'A',
       link: function() {
         $document.bind('keydown', function(e) {
-          // console.log('Got keydown:', e.which);
           $rootScope.$broadcast('keydown', e);
           $rootScope.$broadcast('keydown:' + e.which, e);
         });

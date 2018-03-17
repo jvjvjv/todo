@@ -22,6 +22,8 @@
 				<h1>{{vm.Title}}<span class="badge alert" ng-show="vm.todo|undone">{{vm.todo|undone}}</span></h1>
 				<div class="description" ng-bind-html="vm.description"></div>
 				<div class="clear-items">
+					<button class="button secondary" type="button" ng-click="open('help')">?</button>
+					<button class="button primary" type="button" ng-click="open('whatsNew')">What's New?</button>
 					<button class="button alert" type="button" ng-click="vm.clearCompleted()">Clear Completed</button>
 				</div>
 			</div>
@@ -52,7 +54,10 @@
 			</div>
 
 			<div class="modal-show" ng-show="vm.json" ng-click="vm.json = ''">
-				<div class="json" id="json" ng-bind="vm.json" clipboard supported="supproted" text="vm.json" on-copied="vm.jsonCopied()" on-error="fail()">
+				<div class="json" clipboard supported="supproted" text="vm.json" on-copied="vm.jsonCopied()" on-error="fail()">
+					<h4>Click on the JSON object to copy it to your clipboard</h4>
+					<p>You can paste the JSON into a file, and then import it into another instance.</p>
+					<pre id="json" ng-bind="vm.json"style="word-wrap:break-word;white-space:pre-wrap;"></pre>
 				</div>
 			</div>
 
@@ -84,6 +89,24 @@
 							</tr>
 							<tr>
 								<td>?</td><th>This window</th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-show" ng-show="vm.whatsNew" ng-click="vm.whatsNew = false">
+				<div class="help">
+					<h3>What's New?</h3>
+					<table>
+						<thead>
+							<tr>
+								<th colspan="2">Version</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="v in vm.versions">
+								<td>{{ v.version }}</td>
+								<td>{{ v.info }}</td>
 							</tr>
 						</tbody>
 					</table>
