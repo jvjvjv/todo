@@ -53,7 +53,7 @@
 				</form>
 			</div>
 
-			<div class="modal-show" ng-show="vm.json" ng-click="vm.json = ''">
+			<div class="modal-show ng-hide" ng-show="vm.json" ng-click="vm.json = ''">
 				<div class="json" clipboard supported="supproted" text="vm.json" on-copied="vm.jsonCopied()" on-error="fail()">
 					<h4>Click on this to copy it to your clipboard</h4>
 					<p>You can paste the JSON into a new text file to transfer this To Do list to another browser.</p>
@@ -61,7 +61,7 @@
 				</div>
 			</div>
 
-			<div class="modal-show" ng-show="vm.import">
+			<div class="modal-show ng-hide" ng-show="vm.import">
 				<div class="import">
 					<form ng-submit="vm.performImport(vm.importText)">
 						<textarea ng-model="vm.importText"></textarea>
@@ -70,7 +70,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="modal-show" ng-show="vm.help" ng-click="vm.help = false">
+			<div class="modal-show ng-hide" ng-show="vm.help" ng-click="vm.help = false">
 				<div class="help">
 					<h3>Keyboard shortcuts</h3>
 					<table>
@@ -94,7 +94,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="modal-show" ng-show="vm.whatsNew" ng-click="vm.whatsNew = false">
+			<div class="modal-show ng-hide" ng-show="vm.whatsNew" ng-click="vm.whatsNew = false">
 				<div class="help">
 					<h3>What's New?</h3>
 					<table>
