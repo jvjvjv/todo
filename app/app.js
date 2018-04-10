@@ -44,6 +44,11 @@ app.controller('mainView',function($scope,$http,$sce){
 	}
 
 	$scope.init = function(){
+		vm.sfx = {
+			click : new Audio('app/wav/click04.wav'),
+			boop: new Audio('app/wav/computer-boop.wav'),
+			woosh: new Audio('app/wav/woosh-noise-1.wav')
+		};
 		vm.Title = "To Do";
 		vm.description = $sce.trustAsHtml("<p>Here's my to do list. It only exists on this computer in this browser.</p><p>If you want, you can have different To Do lists in different browsers. But, I mean, who even does that?</p>");
 		vm.todo = [];
@@ -122,6 +127,7 @@ app.controller('mainView',function($scope,$http,$sce){
 		gtag('event', (item.done ? 'Completed' : 'Un-completed') + ' a task',{
 			'event_label':item.task
 		});
+		vm.sfx.boop.play();
 		saveToDo();
 	};
 
@@ -161,6 +167,7 @@ app.controller('mainView',function($scope,$http,$sce){
 		} );
 		saveToDo();
 		gtag('event','Cleared Completed Tasks');
+		vm.sfx.woosh.play();
 	};
 
 	vm.addNewTask = function($event){
@@ -179,6 +186,7 @@ app.controller('mainView',function($scope,$http,$sce){
 		gtag('event','Add Task', {
 			'event_label': $scope.task,
 		});
+		vm.sfx.click.play();
 		localStorage.toDo = angular.toJson(vm.todo);
 		$scope.task = '';
 	};
